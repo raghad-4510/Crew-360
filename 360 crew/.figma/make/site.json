@@ -1,0 +1,10 @@
+{
+  "description": "Provides a customizable dashboard that integrates with any database to visualize and manage data efficiently for business and analytics users.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
