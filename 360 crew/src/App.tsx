@@ -212,6 +212,7 @@ const nowMinutes = now.getHours() * 60 + now.getMinutes();
 const getShiftTiming = (shift: ShiftInfo) => {
     const start = getMinutes(shift.shiftStart);
     const end = getMinutes(shift.shiftEnd);
+    const checkInStart = (start - 30 + 1440) % 1440;
     const isOvernight = end <= start;
 
     const isCurrent = isOvernight
@@ -222,13 +223,17 @@ const getShiftTiming = (shift: ShiftInfo) => {
         ? nowMinutes < start && nowMinutes >= end
         : nowMinutes < start;
 
+    const isCheckInWindow = checkInStart > end
+        ? nowMinutes >= checkInStart || nowMinutes < end
+        : nowMinutes >= checkInStart && nowMinutes < end;
+
     return {
         isCurrent,
         isUpcoming,
         isEnded: !isCurrent && !isUpcoming,
+        isCheckInWindow,
     };
 };
-
 const currentShift = shifts.find(
     (shift) =>
         !shift.checkedIn &&
@@ -255,9 +260,9 @@ const actionShift = currentShift ?? upcomingShift ?? null;
 
     const canCheckIn =
     actionShift !== null &&
-    getShiftTiming(actionShift).isCurrent &&
+    getShiftTiming(actionShift).isCheckInWindow &&
     zone === "green";
-
+        console.log(new Date().toString(), nowMinutes);
     const getShiftStatus = (shift: ShiftInfo) => {
         if (shift.attendanceStatus === "Absent") return "Reassigned";
         if (shift.checkedIn) return `Checked in${shift.checkInTime ? ` · ${shift.checkInTime}` : ""}`;
