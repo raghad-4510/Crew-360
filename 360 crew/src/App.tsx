@@ -162,9 +162,9 @@ export function Header({ title = "Dashboard" }: HeaderProps) {
 // ─── Smart Attendance Card ────────────────────────────────────────────────────
 
 const ZONE_COLOR = {
-    green: "#1F6B42",   // Abu Aljadayel Deep Mint/Green
-    blue: "#B0924E",    // Haramain Gold
-    outside: "#E11D48", // Slate Red
+    green: "#1F6B42",   
+    blue: "#B0924E",    
+    outside: "#E11D48", 
 } as const;
 
 const ZONE_LABEL = {
@@ -250,7 +250,7 @@ const upcomingShift = shifts.find(
 
 const actionShift = currentShift ?? upcomingShift ?? null;
 
-    // A shift requiring employee attention, regardless of its position today.
+    
     const attentionShift =
         shifts.find(
             (shift) =>
@@ -593,25 +593,25 @@ const ATTENDANCE_META: Record<
   { color: string; bg: string; icon: typeof CheckCircle2 }
 > = {
   Present: {
-    color: "#1F6B42", // Abu Aljadayel Deep Mint
+    color: "#1F6B42", 
     bg: "#EAF7F0",
     icon: CheckCircle2,
   },
 
   Late: {
-    color: "#B0924E", // Haramain Gold
+    color: "#B0924E",
     bg: "#FDF8ED",
     icon: Clock,
   },
 
   Absent: {
-    color: "#E11D48", // Slate Red
+    color: "#E11D48", 
     bg: "#FFF1F2",
     icon: XCircle,
   },
 
   Transferred: {
-    color: "#475569", // Slate
+    color: "#475569", 
     bg: "#F1F5F9",
     icon: RefreshCw,
   },

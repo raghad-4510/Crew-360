@@ -60,13 +60,13 @@ export default function MoodBoardCard({
     }
   }
 
-  // Brand-aligned mood scale from Deep Mint (5) -> Haramain Gold (3) -> Rose Red (1)
+  
   const moodColors: Record<number, string> = {
-    5: "#1F6B42", // Excellent (Abu Aljadayel Deep Mint)
-    4: "#2E8B57", // Happy (Forest Green)
-    3: "#B0924E", // Neutral (Haramain Gold)
-    2: "#D97706", // Tired (Warm Bronze/Amber)
-    1: "#E11D48", // Stressed (Slate Red)
+    5: "#1F6B42", // Excellent 
+    4: "#2E8B57", // Happy 
+    3: "#B0924E", // Neutral 
+    2: "#D97706", // Tired 
+    1: "#E11D48", // Stressed 
   };
 
   const moodEmojis: Record<number, string> = {

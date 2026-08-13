@@ -57,13 +57,13 @@ map = leafletMap.current;
         }
       ).addTo(map);
 
-      // Station marker
+      
       L.marker([lat, lng])
         .addTo(map)
         .bindPopup(station.station_name)
         
 
-      // Green attendance zone
+      
       L.circle([lat, lng], {
         radius: Number(station.attendance_radius),
         color: "green",
@@ -82,7 +82,6 @@ map = leafletMap.current;
     const userLat = position.coords.latitude;
     const userLng = position.coords.longitude;
 
-    // Update employee marker
     if (employeeMarker.current) {
       employeeMarker.current.setLatLng([userLat, userLng]);
     } else {
@@ -91,7 +90,7 @@ map = leafletMap.current;
         .bindPopup("You");
     }
 
-    // Keep the map centered on the employee
+    
     map.panTo([userLat, userLng]);
 
     // Calculate distance
@@ -104,7 +103,7 @@ map = leafletMap.current;
 
     console.log(distance.toFixed(0) + " meters");
 
-    // Determine zone
+    
    let zone: "green" | "blue" | "outside" = "outside";
 
 if (distance <= Number(station.attendance_radius)) {

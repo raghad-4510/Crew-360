@@ -1,16 +1,4 @@
-/**
- * Database Adapter Layer
- *
- * Swap out any function below to connect a real database (Supabase, REST API,
- * GraphQL, etc.). Each function is async and returns typed data — callers never
- * need to change when the source changes.
- *
- * Example swap:
- *   export async function fetchEmployee(id: string): Promise<Employee> {
- *     const { data } = await supabase.from('employees').select('*').eq('id', id).single()
- *     return data
- *   }
- */
+
 
 export interface Employee {
   id: string
@@ -140,14 +128,13 @@ export async function fetchEmployee(): Promise<Employee> {
     throw new Error(data.error ?? "Could not load employee data");
   }
 
-  // The updated PHP endpoint returns an array: one row per shift.
   const shiftRows = Array.isArray(data) ? data : [];
 
   if (shiftRows.length === 0) {
     throw new Error("No active shifts found for this employee");
   }
 
-  // Employee details are repeated on each shift row; use the first one.
+
   const employee = shiftRows[0];
 
   const firstName = employee.first_name ?? "";
@@ -291,7 +278,7 @@ export async function fetchRewardInfo(): Promise<RewardInfo> {
 
   const response = await fetch(
     "http://localhost/smart-attendance/api/rewards.php?employee_id=2"
-  );//لازم نخليه يتغير حسب الموظف
+  );//لازم اخليه يتغير حسب الموظف
 
   const data = await response.json();
 console.log("Rewards API:", data);
