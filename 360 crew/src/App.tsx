@@ -1140,30 +1140,43 @@ const [mood, setMood] = useState<MoodInfo | null>(null);
   const [showAttendanceHistory, setShowAttendanceHistory] = useState(false);
   const [fullAttendanceHistory, setFullAttendanceHistory] = useState([]);
   async function loadDashboardData() {
-  const employeeData = await fetchEmployee();
-  const shiftData = await fetchShiftInfo();
-  const todayShiftsData = await fetchTodayShifts();
-  const attendanceData = await fetchAttendanceHistory();
-  const rewardData = await fetchRewardInfo();
-  const rewardHistoryData = await fetchRewardHistory();
-  const moodData = await fetchMood();
-  const weeklyMoodData = await fetchWeeklyMood();
-  const leaderboardData = await fetchLeaderboard();
-setMood(moodData);
-  setEmployee(employeeData);
-  setShift(shiftData);
-  setTodayShifts(todayShiftsData);
-  setAttendanceRecords(attendanceData);
-  setReward(rewardData);
-  setRewardHistory(rewardHistoryData);
-  setWeeklyMood(weeklyMoodData);
-  setLeaderboard(leaderboardData);
-  if (
-    shiftData?.attendanceStatus === "Absent" &&
-    shiftData?.justificationStatus === "Required"
-) {
-    setShowJustification(true);
-}
+    const [
+      employeeData,
+      shiftData,
+      todayShiftsData,
+      attendanceData,
+      rewardData,
+      rewardHistoryData,
+      moodData,
+      weeklyMoodData,
+      leaderboardData,
+    ] = await Promise.all([
+      fetchEmployee(),
+      fetchShiftInfo(),
+      fetchTodayShifts(),
+      fetchAttendanceHistory(),
+      fetchRewardInfo(),
+      fetchRewardHistory(),
+      fetchMood(),
+      fetchWeeklyMood(),
+      fetchLeaderboard(),
+    ]);
+
+    setMood(moodData);
+    if (employeeData) setEmployee(employeeData);
+    setShift(shiftData);
+    setTodayShifts(todayShiftsData);
+    setAttendanceRecords(attendanceData);
+    setReward(rewardData);
+    setRewardHistory(rewardHistoryData);
+    setWeeklyMood(weeklyMoodData);
+    setLeaderboard(leaderboardData);
+    if (
+      shiftData?.attendanceStatus === "Absent" &&
+      shiftData?.justificationStatus === "Required"
+    ) {
+      setShowJustification(true);
+    }
 }
 async function handleCheckIn() {
     try {

@@ -117,7 +117,7 @@ export interface LeaderboardInfo {
     currentEmployee: LeaderboardEntry | null;
 }
 
-export async function fetchEmployee(): Promise<Employee> {
+export async function fetchEmployee(): Promise<Employee | null> {
   const response = await fetch(
     "http://localhost/smart-attendance/api/employee_data.php"
   );
@@ -131,7 +131,9 @@ export async function fetchEmployee(): Promise<Employee> {
   const shiftRows = Array.isArray(data) ? data : [];
 
   if (shiftRows.length === 0) {
-    throw new Error("No active shifts found for this employee");
+    // Once the employee checks in to their final shift, this endpoint can
+    // legitimately return no remaining rows for the day.
+    return null;
   }
 
 
@@ -148,7 +150,7 @@ export async function fetchEmployee(): Promise<Employee> {
   };
 }
 
-export async function fetchShiftInfo(): Promise<ShiftInfo> {
+export async function fetchShiftInfo(): Promise<ShiftInfo | null> {
 
   const response = await fetch(
     "http://localhost/smart-attendance/api/get_station.php"
@@ -156,6 +158,17 @@ export async function fetchShiftInfo(): Promise<ShiftInfo> {
 
   const data = await response.json();
 
+  // There is no active station once the final shift has been checked in.
+  // Treat that response as an empty state instead of calling `substring` on
+  // missing times and crashing the dashboard refresh.
+  if (
+    !response.ok ||
+    !data ||
+    typeof data.start_time !== "string" ||
+    typeof data.end_time !== "string"
+  ) {
+    return null;
+  }
 
  return {
     shiftStart: data.start_time.substring(0,5),
